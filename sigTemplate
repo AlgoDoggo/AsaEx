@@ -1,0 +1,188 @@
+#pragma version 4
+
+txn CloseRemainderTo
+global ZeroAddress
+==
+assert
+
+txn AssetCloseTo
+global ZeroAddress
+==
+assert
+
+txn RekeyTo
+global ZeroAddress
+==
+assert
+
+gtxn 0 XferAsset
+int ${asaid}
+==
+gtxn 0 AssetAmount
+int 0
+==
+&&
+bnz withOptin
+
+global GroupSize
+int 3
+==
+assert
+
+gtxn 0 Fee
+gtxn 2 Fee
++
+int 10000
+<
+assert
+
+gtxn 0 TypeEnum
+int pay
+==
+assert
+
+gtxn 0 Sender
+txn Sender
+!=
+assert
+
+gtxn 0 Amount
+int ${rawAlgoAskAmount}
+==
+assert
+
+gtxn 0 Receiver
+addr ${seller}
+==
+assert
+
+gtxn 1 Sender
+txn Sender
+==
+assert
+
+gtxn 1 Fee
+int 0
+==
+assert
+
+gtxn 1 TypeEnum
+int axfer 
+==
+assert
+
+gtxn 1 XferAsset
+int ${asaid}
+==
+assert
+
+gtxn 1 AssetAmount
+int ${rawAsaSellAmount}
+==
+assert
+
+txn LastValid
+int ${lastvalid}
+<
+assert
+
+gtxn 2 Sender
+txn Sender
+!=
+assert
+
+gtxn 2 Receiver
+addr ${process.env.NEXT_PUBLIC_ASAEXFEEWALLET}
+==
+assert
+
+gtxn 2 Amount
+int ${doggoFee}
+==
+return
+
+withOptin:
+
+global GroupSize
+int 4
+==
+assert
+
+gtxn 0 Fee
+gtxn 1 Fee
++
+gtxn 3 Fee
++
+int 10000
+<
+assert
+
+gtxn 0 Sender
+txn Sender
+!=
+assert
+
+gtxn 1 TypeEnum
+int pay
+==
+assert
+
+gtxn 1 Sender
+txn Sender
+!=
+assert
+
+gtxn 1 Amount
+int ${rawAlgoAskAmount}
+==
+assert
+
+gtxn 1 Receiver
+addr ${seller}
+==
+assert
+
+gtxn 2 Sender
+txn Sender
+==
+assert
+
+gtxn 2 Fee
+int 0
+==
+assert
+
+gtxn 2 TypeEnum
+int axfer 
+==
+assert
+
+gtxn 2 XferAsset
+int ${asaid}
+==
+assert
+
+gtxn 2 AssetAmount
+int ${rawAsaSellAmount}
+==
+assert
+
+txn LastValid
+int ${lastvalid}
+<
+assert
+
+gtxn 3 Sender
+txn Sender
+!=
+assert
+
+gtxn 3 Receiver
+addr ${process.env.NEXT_PUBLIC_ASAEXFEEWALLET}
+==
+assert
+
+gtxn 3 Amount
+int ${doggoFee}
+==
+return
